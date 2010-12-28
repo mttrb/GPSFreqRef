@@ -352,12 +352,7 @@ DispScreen1:
 	MOVLW "L"
 	CALL DisplayData
 
-;	MOVLW " "	
-;	CALL DisplayData
-
-	BSF STATUS, RP0
-	MOVF LCLh,0
-	BCF STATUS, RP0
+	MOVLW " "	
 	CALL DisplayData
 
 	BSF STATUS, RP0
@@ -1040,7 +1035,7 @@ isLCLless10:
 	BTFSC	STATUS,C
 	GOTO	isLCLless20
 	
-	MOVLW	"A"
+	MOVLW	"0"
 	MOVWF	LCLh10
 
 	MOVLW	"0"
@@ -1055,7 +1050,7 @@ isLCLless20:
 	BTFSC	STATUS,C
 	GOTO 	isLCLless24
 
-	MOVLW 	"B"
+	MOVLW 	"1"
 	MOVWF	LCLh10
 
 	MOVLW	h'26'		; "0" - 10
@@ -1070,7 +1065,7 @@ isLCLless24:
 	BTFSC	STATUS,C
 	GOTO	LCLgreater24
 	
-	MOVLW	"C"
+	MOVLW	"2"
 	MOVWF	LCLh10
 
 	MOVLW	h'1C'		; "0" - 20
@@ -1080,7 +1075,7 @@ isLCLless24:
 	GOTO	LCLdone
 
 LCLgreater24:
-	MOVLW	"D"
+	MOVLW	"0"
 	MOVWF	LCLh10
 
 	MOVLW	h'18'		; "0" - 24
@@ -1088,8 +1083,6 @@ LCLgreater24:
 	MOVWF	LCLh01
 
 LCLdone:
-	MOVLW	h'30'
-	ADDWF	LCLh,1		; Move value into ASCII char range
 	BCF STATUS, RP0
 	
 
