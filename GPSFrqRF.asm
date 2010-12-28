@@ -371,50 +371,33 @@ DispScreen1:
 	CALL DisplayData	; and display it
 	MOVLW h'C0'			; now move down to line 2
 	CALL DispAddress
-;	BSF STATUS, RP0
-;	MOVF UDATEd10,0		; and send UTC date chars
-;	BCF STATUS, RP0
-;	CALL DisplayData
-;	BSF STATUS, RP0
-;	MOVF UDATEd01,0
-;	BCF STATUS, RP0
-;	CALL DisplayData
-;	MOVLW ":"			; again with colon delimiters
-;	CALL DisplayData
-;	BSF STATUS, RP0
-;	MOVF UDATEm10,0
-;	BCF STATUS, RP0
-;	CALL DisplayData
-;	BSF STATUS, RP0
-;	MOVF UDATEm01,0
-;	BCF STATUS, RP0
-;	CALL DisplayData
-;	MOVLW ":"
-;	CALL DisplayData
-;	BSF STATUS, RP0
-;	MOVF UDATEy10,0
-;	BCF STATUS, RP0
-;	CALL DisplayData
-;	BSF STATUS, RP0
-;	MOVF UDATEy01,0
-;	BCF STATUS, RP0
-;	CALL DisplayData
-	MOVLW " "		
+
+	MOVLW "L"		
 	CALL DisplayData
-	MOVLW " "	
+	MOVLW "C"	
 	CALL DisplayData
-	MOVLW " "
+	MOVLW "L"
 	CALL DisplayData
-	MOVLW " "	
+
+	BSF STATUS, RP0
+	MOVF UTCh10,0		; now fetch UTC time chars and send them
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF UTCh01,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "		
+	MOVLW ":"			; with colon delimiters 
 	CALL DisplayData
-	MOVLW " "	
+	BSF STATUS, RP0
+	MOVF UTCm10,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF UTCm01,0
+	BCF STATUS, RP0
 	CALL DisplayData
+
 	MOVLW " "	
 	CALL DisplayData
 	MOVLW " "
@@ -591,6 +574,53 @@ DispScreen3:
 	CALL DisplayData
 	MOVLW h'C0'			; now move to start of second line
 	CALL DispAddress
+
+
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+
+	RETURN				; before leaving
+
+DispScreen4:
+	; routine to display satellite info in brief form for 20 secs
+	; (after S3 is pressed)
+	MOVLW h'28'			; first set temp display mode timing counter
+	MOVWF TempDispCtr	; for about 20 seconds (20 x 2 (was 3) GPS sentences)
+	BSF Flags,0			; then set temp display mode flag
+	MOVLW h'80'			; then set address to line 1, char 0
+	CALL DispAddress
+
+
 	MOVLW "S"			; and send "Sats in View: "
 	CALL DisplayData
 	MOVLW "a"
@@ -617,8 +647,6 @@ DispScreen3:
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
 	BSF STATUS, RP0
 	MOVF SIUtens,0		; now send SIVtens and SIVunits
 	BCF STATUS, RP0
@@ -627,114 +655,46 @@ DispScreen3:
 	MOVF SIUunits,0
 	BCF STATUS, RP0
 	CALL DisplayData
-	RETURN				; before leaving
+	MOVLW " "
+	CALL DisplayData
 
-DispScreen4:
-	; routine to display satellite info in brief form for 20 secs
-	; (after S3 is pressed)
-	MOVLW h'28'			; first set temp display mode timing counter
-	MOVWF TempDispCtr	; for about 20 seconds (20 x 2 (was 3) GPS sentences)
-	BSF Flags,0			; then set temp display mode flag
-	MOVLW h'80'			; then set address to line 1, char 0
-	CALL DispAddress
-	BSF STATUS, RP0
-	MOVF PRNa10,0		; fetch & send first sat's PRN - tens
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNa01,0		; and units
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW ":"			; then a colon
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNaCN10,0		; then its s/n ratio -- tens
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNaCN01,0		; followed by units
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW "d"			; then "dB "
-	CALL DisplayData
-	MOVLW "B"
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNb10,0		; now repeat for second sat in view
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNb01,0
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW ":"
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNbCN10,0
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNbCN01,0
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW "d"			; then "dB "
-	CALL DisplayData
-	MOVLW "B"
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
+
 	MOVLW h'C0'			; now move to start of second line
 	CALL DispAddress
-	BSF STATUS, RP0
-	MOVF PRNc10,0		; fetch & send third sat's PRN - tens
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNc01,0		; and units
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW ":"			; then a colon
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNcCN10,0		; then its s/n ratio -- tens
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNcCN01,0		; followed by units
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW "d"			; then "dB "
-	CALL DisplayData
-	MOVLW "B"
+
+	MOVLW " "
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNd10,0		; and finally for fourth sat in view
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNd01,0
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW ":"
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNdCN10,0
-	BCF STATUS, RP0
-	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF PRNdCN01,0
-	BCF STATUS, RP0
-	CALL DisplayData
-	MOVLW "d"			; then "dB "
-	CALL DisplayData
-	MOVLW "B"
+	MOVLW " "
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+
 	RETURN				; and return
 
 DispScreen5:
