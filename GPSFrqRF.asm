@@ -1045,7 +1045,7 @@ isLCLless10:
 	
 	GOTO	LCLdone
 	
-sLCLless20:
+isLCLless20:
 	MOVLW	20
 	SUBWF	LCLh,0
 	BTFSC	STATUS,C
@@ -1062,7 +1062,7 @@ sLCLless20:
 
 isLCLless24:
 	MOVLW	24
-	SUBWD	LCLh,0
+	SUBWF	LCLh,0
 	BTFSC	STATUS,C
 	GOTO	LCLgreater24
 	
