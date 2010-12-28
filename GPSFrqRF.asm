@@ -1019,7 +1019,7 @@ Add8:
 	MOVLW	"0"
 	SUBWF	LCLh01, 1
 
-	MOVLW	8
+	MOVLW	h'08'
 	ADDWF	LCLh10,0
 	ADDWF	LCLh10,0
 	ADDWF	LCLh10,0
@@ -1035,7 +1035,7 @@ Add8:
 	MOVWF	LCLh
 
 isLCLless10:
-	MOVLW	10
+	MOVLW	h'0A'
 	SUBWF	LCLh,0
 	BTFSC	STATUS,C
 	GOTO	isLCLless20
@@ -1050,7 +1050,7 @@ isLCLless10:
 	GOTO	LCLdone
 	
 isLCLless20:
-	MOVLW	20
+	MOVLW	h'14'
 	SUBWF	LCLh,0
 	BTFSC	STATUS,C
 	GOTO 	isLCLless24
@@ -1058,14 +1058,14 @@ isLCLless20:
 	MOVLW 	"B"
 	MOVWF	LCLh10
 
-	MOVLW	38		; "0" - 10
+	MOVLW	h'26'		; "0" - 10
 	ADDWF	LCLh,0
 	MOVWF	LCLh01
 
 	GOTO	LCLdone
 
 isLCLless24:
-	MOVLW	24
+	MOVLW	h'18'
 	SUBWF	LCLh,0
 	BTFSC	STATUS,C
 	GOTO	LCLgreater24
@@ -1073,7 +1073,7 @@ isLCLless24:
 	MOVLW	"C"
 	MOVWF	LCLh10
 
-	MOVLW	28		; "0" - 20
+	MOVLW	h'1C'		; "0" - 20
 	ADDWF	LCLh,0
 	MOVWF	LCLh01
 
@@ -1083,12 +1083,12 @@ LCLgreater24:
 	MOVLW	"D"
 	MOVWF	LCLh10
 
-	MOVLW	24		; "0" - 24
+	MOVLW	h'18'		; "0" - 24
 	ADDWF	LCLh,0
 	MOVWF	LCLh01
 
 LCLdone:
-	MOVLW	48
+	MOVLW	h'30'
 	ADDWF	LCLh,1		; Move value into ASCII char range
 	BCF STATUS, RP0
 	
