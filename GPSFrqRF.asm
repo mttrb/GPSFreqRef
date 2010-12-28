@@ -51,41 +51,43 @@ UTCs10	equ		h'A4'	; UTC seconds - tens
 UTCs01	equ		h'A5'	; UTC seconds - units
 
 ; storage registers for current UTC date (Bank1)
-LCLh10		equ h'A6'	; UTC day - tens
-LCLh01		equ h'A7'	; UTC day - units
+LCLh		equ h'A6'	; LCL hour temp
+LCLcount	equ h'A7'	; LCL count
+LCLh10		equ h'A8'	; LCL hour - tens
+LCLh01		equ h'A9'	; LCL hour - units
 
 ; storage registers for Fix latitude (Bank1)
-LATd10		equ h'A8'	; Latitude degrees - tens
-LATd01		equ h'A9'	; Latitude degrees - units
-LATm10		equ h'AA'	; Latitude minutes - tens
-LATm01		equ h'AB'	; Latitude minutes - units
-LATf10		equ h'AC'	; Latitude minutes - tenths
-LATf20		equ h'AD'	; Latitude minutes - hundredths
-LATf30		equ h'AE'	; Latitude minutes - thousandths
-LATf40		equ h'AF'	; Latitude minutes - 10thousandths
-LAThemi		equ h'B0'	; Latitude hemisphere (N or S)
+LATd10		equ h'AA'	; Latitude degrees - tens
+LATd01		equ h'AB'	; Latitude degrees - units
+LATm10		equ h'AC'	; Latitude minutes - tens
+LATm01		equ h'AD'	; Latitude minutes - units
+LATf10		equ h'AE'	; Latitude minutes - tenths
+LATf20		equ h'AF'	; Latitude minutes - hundredths
+LATf30		equ h'B0'	; Latitude minutes - thousandths
+LATf40		equ h'B1'	; Latitude minutes - 10thousandths
+LAThemi		equ h'B2'	; Latitude hemisphere (N or S)
 
 ; storage registers for Fix longitude (Bank1)
-LNGd100		equ h'B1'	; Longitude degrees - hundreds
-LNGd010		equ h'B2'	; Longitude degrees - tens
-LNGd001		equ h'B3'	; Longitude degrees - units
-LNGm10		equ h'B4'	; Longitude minutes - tens
-LNGm01		equ h'B5'	; Longitude minutes - units
-LNGf10		equ h'B6'	; Longitude minutes - tenths
-LNGf20		equ h'B7'	; Longitude minutes - hundredths
-LNGf30		equ h'B8'	; Longitude minutes - thousandths
-LNGf40		equ h'B9'	; Longitude minutes - 10thousandths
-LNGhemi		equ h'BA'	; Longitude hemisphere (E or W)
+LNGd100		equ h'B3'	; Longitude degrees - hundreds
+LNGd010		equ h'B4'	; Longitude degrees - tens
+LNGd001		equ h'B5'	; Longitude degrees - units
+LNGm10		equ h'B6'	; Longitude minutes - tens
+LNGm01		equ h'B7'	; Longitude minutes - units
+LNGf10		equ h'B8'	; Longitude minutes - tenths
+LNGf20		equ h'B9'	; Longitude minutes - hundredths
+LNGf30		equ h'BA'	; Longitude minutes - thousandths
+LNGf40		equ h'BB'	; Longitude minutes - 10thousandths
+LNGhemi		equ h'BC'	; Longitude hemisphere (E or W)
 
 ; Storage registers for GPS fix data (Bank1)
-GPSQual		equ h'BB'	; Quality of GPS fix indicator (0/1/2)
-SIUtens		equ h'BC'	; number of satellites in use - tens
-SIUunits	equ h'BD'	; number of satellites in use - units
-SIVtens		equ h'BE'	; Number of satellites in view - tens
-SIVunits	equ h'BF'	; Number of satellites in view - units
-AntHt10		equ h'C0'	; Ant height - tens of metres
-AntHt01		equ h'C1'	; Ant height - units of metres
-AntHtf1		equ h'C2'	; Ant height - tenths of a metre
+GPSQual		equ h'BD'	; Quality of GPS fix indicator (0/1/2)
+SIUtens		equ h'BE'	; number of satellites in use - tens
+SIUunits	equ h'BF'	; number of satellites in use - units
+SIVtens		equ h'C0'	; Number of satellites in view - tens
+SIVunits	equ h'C1'	; Number of satellites in view - units
+AntHt10		equ h'C2'	; Ant height - tens of metres
+AntHt01		equ h'C3'	; Ant height - units of metres
+AntHtf1		equ h'C4'	; Ant height - tenths of a metre
 
 ; -----------------------------------------------------------------
 ; now program begins
@@ -1008,17 +1010,29 @@ Add8:
 	MOVLW	"0"
 	SUBWF	LCLh10, 1	; convert ASCII number to actual value
 
-	MOVLW	"A"		; convert back to ASCII chars
-	ADDWF	LCLh10, 1
-
 	MOVF	UTCh01,0	; do the same for h01
 	MOVWF	LCLh01
 	MOVLW	"0"
 	SUBWF	LCLh01, 1
 
-	MOVLW	"A"
-	ADDWF	LCLh01, 1
+	MOVLW	0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCh10,0
+	ADDWF	UTCHh01,0
+	ADDLW	8
 
+	MOVWF	LCLh10
+	
+	MOVLW	"A"
+	ADDWF	LCLh10,1
 	BCF STATUS, RP0
 	
 
