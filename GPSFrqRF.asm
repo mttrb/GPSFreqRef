@@ -831,6 +831,13 @@ CheckaG:
 	BTFSS STATUS,Z		; if Z=1, must be a G so skip
 	GOTO Depart		; Z=0, so it can't be GGA so depart 
 
+	MOVLW h'26'		; Inspect what should be the first digit of the time
+	MOVWF FSR
+	MOVF INDF,0
+	XORLW ","		; and if it is a comma we need to bail as the GPS
+	BTFSC STATUS,Z		; hasn't locked yet
+	GOTO Depart
+
 	MOVLW h'47'			; Z=1, so must be a GPGGA sentence. Continue
 	MOVWF FSR
 	MOVF INDF,0			; fetch the GPS fix quality index (0/1/2)
