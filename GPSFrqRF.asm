@@ -352,11 +352,16 @@ DispScreen1:
 	MOVLW "L"
 	CALL DisplayData
 
-	MOVLW " "	
+;	MOVLW " "	
+;	CALL DisplayData
+
+	BSF STATUS, RP0
+	MOVF LCLh,0
+	BCF STATUS, RP0
 	CALL DisplayData
 
 	BSF STATUS, RP0
-	MOVF LCLh10,0		; now fetch UTC time chars and send them
+	MOVF LCLh10,0		; now fetch LCL/UTC time chars and send them
 	BCF STATUS, RP0
 	CALL DisplayData
 	BSF STATUS, RP0
@@ -1014,7 +1019,7 @@ Add8:
 	MOVLW	"0"
 	SUBWF	LCLh01, 1
 
-	MOVLW	0
+	MOVLW	8
 	ADDWF	LCLh10,0
 	ADDWF	LCLh10,0
 	ADDWF	LCLh10,0
@@ -1026,7 +1031,6 @@ Add8:
 	ADDWF	LCLh10,0
 	ADDWF	LCLh10,0
 	ADDWF	LCLh01,0
-	ADDLW	8
 
 	MOVWF	LCLh
 
@@ -1036,7 +1040,7 @@ isLCLless10:
 	BTFSC	STATUS,C
 	GOTO	isLCLless20
 	
-	MOVLW	"0"
+	MOVLW	"A"
 	MOVWF	LCLh10
 
 	MOVLW	"0"
@@ -1051,10 +1055,10 @@ isLCLless20:
 	BTFSC	STATUS,C
 	GOTO 	isLCLless24
 
-	MOVLW 	"1"
+	MOVLW 	"B"
 	MOVWF	LCLh10
 
-	MOVLW	"0" - 10
+	MOVLW	38		; "0" - 10
 	ADDWF	LCLh,0
 	MOVWF	LCLh01
 
@@ -1066,25 +1070,26 @@ isLCLless24:
 	BTFSC	STATUS,C
 	GOTO	LCLgreater24
 	
-	MOVLW	"2"
+	MOVLW	"C"
 	MOVWF	LCLh10
 
-	MOVLW	"0" - 20
+	MOVLW	28		; "0" - 20
 	ADDWF	LCLh,0
 	MOVWF	LCLh01
 
 	GOTO	LCLdone
 
 LCLgreater24:
-	MOVLW	"0"
+	MOVLW	"D"
 	MOVWF	LCLh10
 
-	MOVLW	"0" - 24
+	MOVLW	24		; "0" - 24
 	ADDWF	LCLh,0
 	MOVWF	LCLh01
 
 LCLdone:
-
+	MOVLW	48
+	ADDWF	LCLh,1		; Move value into ASCII char range
 	BCF STATUS, RP0
 	
 
