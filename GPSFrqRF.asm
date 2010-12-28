@@ -355,11 +355,11 @@ DispScreen1:
 	CALL DisplayData
 
 	BSF STATUS, RP0
-	MOVF UTCh10,0		; now fetch UTC time chars and send them
+	MOVF LCLh10,0		; now fetch UTC time chars and send them
 	BCF STATUS, RP0
 	CALL DisplayData
 	BSF STATUS, RP0
-	MOVF UTCh01,0
+	MOVF LCLh01,0
 	BCF STATUS, RP0
 	CALL DisplayData
 	MOVLW ":"			; with colon delimiters 
@@ -995,7 +995,32 @@ CheckaG:
 	BSF STATUS, RP0
 	MOVWF AntHtf1		; antenna height above MSL - 10ths of a metre
 	BCF STATUS, RP0
+
+	GOTO	Add8
+
 	GOTO Depart			; that's it for a GPGGA sentence, so leave
+
+Add8:
+	BSF STATUS, RP0
+
+	MOVF	UTCh10,0	; Copy UTCh10 to LCLh10
+	MOVWF	LCLh10
+	MOVLW	"0"
+	SUBWF	LCLh10, 1	; convert ASCII number to actual value
+
+	MOVLW	"A"		; convert back to ASCII chars
+	ADDWF	LCLh10, 1
+
+	MOVF	UTCh01,0	; do the same for h01
+	MOVWF	LCLh01
+	MOVLW	"0"
+	SUBWF	LCLh01, 1
+
+	MOVLW	"A"
+	ADDWF	LCLh01, 1
+
+	BCF STATUS, RP0
+	
 
 Depart:
 	; exit after parsing a recv'd NMEA sentence & saving or discarding data
