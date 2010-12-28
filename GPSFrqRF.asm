@@ -51,62 +51,41 @@ UTCs10	equ		h'A4'	; UTC seconds - tens
 UTCs01	equ		h'A5'	; UTC seconds - units
 
 ; storage registers for current UTC date (Bank1)
-UDATEd10	equ h'A6'	; UTC day - tens
-UDATEd01	equ h'A7'	; UTC day - units
-UDATEm10	equ h'A8'	; UTC month - tens
-UDATEm01	equ	h'A9'	; UTC month - units
-UDATEy10	equ h'AA'	; UTC year - tens
-UDATEy01	equ	h'AB'	; UTC year - units
+LCLh10		equ h'A6'	; UTC day - tens
+LCLh01		equ h'A7'	; UTC day - units
 
 ; storage registers for Fix latitude (Bank1)
-LATd10		equ h'AC'	; Latitude degrees - tens
-LATd01		equ h'AD'	; Latitude degrees - units
-LATm10		equ h'AE'	; Latitude minutes - tens
-LATm01		equ h'AF'	; Latitude minutes - units
-LATf10		equ h'B0'	; Latitude minutes - tenths
-LATf20		equ h'B1'	; Latitude minutes - hundredths
-LATf30		equ h'B2'	; Latitude minutes - thousandths
-LATf40		equ h'B3'	; Latitude minutes - 10thousandths
-LAThemi		equ h'B4'	; Latitude hemisphere (N or S)
+LATd10		equ h'A8'	; Latitude degrees - tens
+LATd01		equ h'A9'	; Latitude degrees - units
+LATm10		equ h'AA'	; Latitude minutes - tens
+LATm01		equ h'AB'	; Latitude minutes - units
+LATf10		equ h'AC'	; Latitude minutes - tenths
+LATf20		equ h'AD'	; Latitude minutes - hundredths
+LATf30		equ h'AE'	; Latitude minutes - thousandths
+LATf40		equ h'AF'	; Latitude minutes - 10thousandths
+LAThemi		equ h'B0'	; Latitude hemisphere (N or S)
 
 ; storage registers for Fix longitude (Bank1)
-LNGd100		equ h'B5'	; Longitude degrees - hundreds
-LNGd010		equ h'B6'	; Longitude degrees - tens
-LNGd001		equ h'B7'	; Longitude degrees - units
-LNGm10		equ h'B8'	; Longitude minutes - tens
-LNGm01		equ h'B9'	; Longitude minutes - units
-LNGf10		equ h'BA'	; Longitude minutes - tenths
-LNGf20		equ h'BB'	; Longitude minutes - hundredths
-LNGf30		equ h'BC'	; Longitude minutes - thousandths
-LNGf40		equ h'BD'	; Longitude minutes - 10thousandths
-LNGhemi		equ h'BE'	; Longitude hemisphere (E or W)
+LNGd100		equ h'B1'	; Longitude degrees - hundreds
+LNGd010		equ h'B2'	; Longitude degrees - tens
+LNGd001		equ h'B3'	; Longitude degrees - units
+LNGm10		equ h'B4'	; Longitude minutes - tens
+LNGm01		equ h'B5'	; Longitude minutes - units
+LNGf10		equ h'B6'	; Longitude minutes - tenths
+LNGf20		equ h'B7'	; Longitude minutes - hundredths
+LNGf30		equ h'B8'	; Longitude minutes - thousandths
+LNGf40		equ h'B9'	; Longitude minutes - 10thousandths
+LNGhemi		equ h'BA'	; Longitude hemisphere (E or W)
 
 ; Storage registers for GPS fix data (Bank1)
-GPSStatus	equ h'BF'	; GPS fix status (A or V)
-GPSQual		equ h'C0'	; Quality of GPS fix indicator (0/1/2)
-SIUtens		equ h'C1'	; number of satellites in use - tens
-SIUunits	equ h'C2'	; number of satellites in use - units
-SIVtens		equ h'C3'	; Number of satellites in view - tens
-SIVunits	equ h'C4'	; Number of satellites in view - units
-AntHt10		equ h'C5'	; Ant height - tens of metres
-AntHt01		equ h'C6'	; Ant height - units of metres
-AntHtf1		equ h'C7'	; Ant height - tenths of a metre
-PRNa10		equ h'C8'	; First SIV PRN No - tens
-PRNa01		equ h'C9'	; First SIV PRN No - units
-PRNaCN10	equ h'CA'	; First SIV S/N ratio -- tens of dB
-PRNaCN01	equ h'CB'	; First SIV S/N ratio -- units of dB
-PRNb10		equ h'CC'	; Second SIV PRN No - tens
-PRNb01		equ h'CD'	; Second SIV PRN No - units
-PRNbCN10	equ h'CE'	; Second SIV S/N ratio -- tens of dB
-PRNbCN01	equ h'CF'	; Second SIV S/N ratio -- units of dB
-PRNc10		equ h'D0'	; Third SIV PRN No - tens
-PRNc01		equ h'D1'	; Third SIV PRN No - units
-PRNcCN10	equ h'D2'	; Third SIV S/N ratio -- tens of dB
-PRNcCN01	equ h'D3'	; Third SIV S/N ratio -- units of dB
-PRNd10		equ h'D4'	; Fourth SIV PRN No - tens
-PRNd01		equ h'D5'	; Fourth SIV PRN No - units
-PRNdCN10	equ h'D6'	; Fourth SIV S/N ratio -- tens of dB
-PRNdCN01	equ h'D7'	; Fourth SIV S/N ratio -- units of dB
+GPSQual		equ h'BB'	; Quality of GPS fix indicator (0/1/2)
+SIUtens		equ h'BC'	; number of satellites in use - tens
+SIUunits	equ h'BD'	; number of satellites in use - units
+SIVtens		equ h'BE'	; Number of satellites in view - tens
+SIVunits	equ h'BF'	; Number of satellites in view - units
+AntHt10		equ h'C0'	; Ant height - tens of metres
+AntHt01		equ h'C1'	; Ant height - units of metres
+AntHtf1		equ h'C2'	; Ant height - tenths of a metre
 
 ; -----------------------------------------------------------------
 ; now program begins
@@ -172,15 +151,8 @@ LoopStart:
 	MOVLW "S"			; not S2, so check if it was S3 (S)
 	XORWF Keycode,0
 	BTFSS STATUS,Z		; skip if Z=1 (i.e., it was an S)
-	GOTO $+3			; Z=0, so keep looking
-	CALL DispScreen4	; it was an S, so go display screen4
 	GOTO CheckFix		; and move on
-	MOVLW "I"			; not S3, so check if it was S4 (I)
-	XORWF Keycode,0
-	BTFSS STATUS,Z		; skip if Z=1 (it was an I)
-	GOTO CheckFix		; Z=0, so no match - move on
-	CALL DispScreen5	; it was an I; so go show initialising msg
-	CALL InitGPS		; and initialise GPS receiver module
+	CALL DispScreen4	; it was an S, so go display screen4
 CheckFix:
 	BSF STATUS, RP0 	; (move to mem Bank 1 in order	
 	MOVF GPSQual,0		; to get GPSQual in w,
@@ -662,15 +634,15 @@ DispScreen4:
 	MOVLW h'C0'			; now move to start of second line
 	CALL DispAddress
 
-	MOVLW " "
+	MOVLW "V"
 	CALL DisplayData
-	MOVLW " "
+	MOVLW "K"
 	CALL DisplayData
-	MOVLW " "
+	MOVLW "6"
 	CALL DisplayData
-	MOVLW " "
+	MOVLW "M"
 	CALL DisplayData
-	MOVLW " "
+	MOVLW "R"
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
@@ -695,79 +667,6 @@ DispScreen4:
 	MOVLW " "
 	CALL DisplayData
 
-	RETURN				; and return
-
-DispScreen5:
-	; routine to display message while GPS module is initialised
-	; (after S4 is pressed)
-	MOVLW h'80'			; first set address to line 1, char 0
-	CALL DispAddress
-	MOVLW "I"			; now send "Initialising GPS"
-	CALL DisplayData
-	MOVLW "n"
-	CALL DisplayData
-	MOVLW "i"
-	CALL DisplayData
-	MOVLW "t"
-	CALL DisplayData
-	MOVLW "i"
-	CALL DisplayData
-	MOVLW "a"
-	CALL DisplayData
-	MOVLW "l"
-	CALL DisplayData
-	MOVLW "i"
-	CALL DisplayData
-	MOVLW "s"
-	CALL DisplayData
-	MOVLW "i"
-	CALL DisplayData
-	MOVLW "n"
-	CALL DisplayData
-	MOVLW "g"
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	MOVLW "G"
-	CALL DisplayData
-	MOVLW "P"
-	CALL DisplayData
-	MOVLW "S"
-	CALL DisplayData
-	MOVLW h'C0'			; now move to start of second line
-	CALL DispAddress
-	MOVLW "R"			; and send "Rx module now..."
-	CALL DisplayData
-	MOVLW "x"
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	MOVLW "m"
-	CALL DisplayData
-	MOVLW "o"
-	CALL DisplayData
-	MOVLW "d"
-	CALL DisplayData
-	MOVLW "u"
-	CALL DisplayData
-	MOVLW "l"
-	CALL DisplayData
-	MOVLW "e"
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	MOVLW "n"
-	CALL DisplayData
-	MOVLW "o"
-	CALL DisplayData
-	MOVLW "w"
-	CALL DisplayData
-	MOVLW "."
-	CALL DisplayData
-	MOVLW "."
-	CALL DisplayData
-	MOVLW "."
-	CALL DisplayData
 	RETURN				; and return
 
 DoAScan:
@@ -789,238 +688,6 @@ DoAScan:
 	CALL BounceWait		; no match, so wait another 250ms
 	GOTO DoAScan		; and back to scan again
 
-InitGPS:
-	; routine to initialise GPS receiver module when S4 has been pressed
-	; (send sentences to ensure 4800bps serial rate, enable 1pps output and
-	; also disable unwanted default sentences from module's NMEA output)
-	BSF STATUS, RP0		; first set for Bank1	
-	BCF PIE1,5			; then disable USART receive interrupts temporarily
-	BSF TXSTA,5			; and enable transmission via USART (TXEN bit -> 1)
-	BCF STATUS, RP0		; then return to Bank0
-	MOVLW "$"			; now start sending GPS Rx config sentence
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "C"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "A"
-	CALL SendChar		; A = automatic fix mode
-	MOVLW ","
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar		; null in second (altitude) field
-	MOVLW ","
-	CALL SendChar		; in third (earth datum index) field 
-	MOVLW ","
-	CALL SendChar		; in fourth field
-	MOVLW ","
-	CALL SendChar		; in fifth field
-	MOVLW ","
-	CALL SendChar		; in sixth field
-	MOVLW ","
-	CALL SendChar		; in seventh field
-	MOVLW ","
-	CALL SendChar		; and in eighth field
-	MOVLW "A"
-	CALL SendChar		; A = automatic differential/non differential
-	MOVLW ","
-	CALL SendChar
-	MOVLW "3" 
-	CALL SendChar		; 3 = 4800bps communication
-	MOVLW ","
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar		; null in 11th field (velocity filter)
-	MOVLW "2"
-	CALL SendChar		; 2 = 1pps output enabled
-	MOVLW ","
-	CALL SendChar
-	MOVLW "4"
-	CALL SendChar		; 4 = pps pulse length of 100ms
-	MOVLW h'0D'
-	CALL SendChar		; now end sentence by sending CR-LF
-	MOVLW h'0A'
-	CALL SendChar
-
-	MOVLW "$"			; now start sending first O/P sentence disable
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "O"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "S"
-	CALL SendChar
-	MOVLW "A"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "0"
-	CALL SendChar
-	MOVLW h'0D'
-	CALL SendChar
-	MOVLW h'0A'
-	CALL SendChar 		; this was to disable the GPGSA sentence
-
-	MOVLW "$"
-	CALL SendChar 
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "O"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "E"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "0"
-	CALL SendChar
-	MOVLW h'0D'
-	CALL SendChar
-	MOVLW h'0A'
-	CALL SendChar 		; this was to disable the PGRME sentence
-
-	MOVLW "$"
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "O"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "B"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "0"
-	CALL SendChar
-	MOVLW h'0D'
-	CALL SendChar
-	MOVLW h'0A'
-	CALL SendChar 		; this was to disable the PGRMB sentence
-
-	MOVLW "$"
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "O"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "0"
-	CALL SendChar
-	MOVLW h'0D'
-	CALL SendChar
-	MOVLW h'0A'
-	CALL SendChar 		; this was to disable the PGRMM sentence
-
-	MOVLW "$"
-	CALL SendChar 
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "G"
-	CALL SendChar
-	MOVLW "R"
-	CALL SendChar
-	MOVLW "M"
-	CALL SendChar
-	MOVLW "O"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "P"
-	CALL SendChar
-	MOVLW "S"
-	CALL SendChar
-	MOVLW "L"
-	CALL SendChar
-	MOVLW "I"
-	CALL SendChar
-	MOVLW "B"
-	CALL SendChar
-	MOVLW ","
-	CALL SendChar
-	MOVLW "0"
-	CALL SendChar
-	MOVLW h'0D'
-	CALL SendChar
-	MOVLW h'0A'
-	CALL SendChar 		; this was to disable the PSLIB sentence
-
-	BSF STATUS, RP0		; all done, so swing to Bank1
-	BCF TXSTA,5			; to disable USART transmission again
-	BSF PIE1,5			; and re-enable USART receive interrupts
-	BCF STATUS, RP0		; before dropping back to Bank0	
-	RETURN				; and returning
-		
 Nibbles2LCD:
 	; routine to separate nibbles of data byte in w & send to LCD
 	MOVWF Temp2			; first save byte in Temp2
