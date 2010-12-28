@@ -351,6 +351,9 @@ DispScreen1:
 	MOVLW "L"
 	CALL DisplayData
 
+	MOVLW " "	
+	CALL DisplayData
+
 	BSF STATUS, RP0
 	MOVF UTCh10,0		; now fetch UTC time chars and send them
 	BCF STATUS, RP0
@@ -370,8 +373,6 @@ DispScreen1:
 	BCF STATUS, RP0
 	CALL DisplayData
 
-	MOVLW " "	
-	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
 	MOVLW "P"
