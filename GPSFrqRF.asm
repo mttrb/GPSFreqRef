@@ -52,41 +52,50 @@ UTCs01	equ		h'A5'	; UTC seconds - units
 
 ; storage registers for current UTC date (Bank1)
 LCLh		equ h'A6'	; LCL hour temp
-LCLh10		equ h'A8'	; LCL hour - tens
-LCLh01		equ h'A9'	; LCL hour - units
+LCLh10		equ h'A7'	; LCL hour - tens
+LCLh01		equ h'A8'	; LCL hour - units
 
 ; storage registers for Fix latitude (Bank1)
-LATd10		equ h'AA'	; Latitude degrees - tens
-LATd01		equ h'AB'	; Latitude degrees - units
-LATm10		equ h'AC'	; Latitude minutes - tens
-LATm01		equ h'AD'	; Latitude minutes - units
-LATf10		equ h'AE'	; Latitude minutes - tenths
-LATf20		equ h'AF'	; Latitude minutes - hundredths
-LATf30		equ h'B0'	; Latitude minutes - thousandths
-LATf40		equ h'B1'	; Latitude minutes - 10thousandths
-LAThemi		equ h'B2'	; Latitude hemisphere (N or S)
+LATd10		equ h'A9'	; Latitude degrees - tens
+LATd01		equ h'AA'	; Latitude degrees - units
+LATm10		equ h'AB'	; Latitude minutes - tens
+LATm01		equ h'AC'	; Latitude minutes - units
+LATf10		equ h'AD'	; Latitude minutes - tenths
+LATf20		equ h'AE'	; Latitude minutes - hundredths
+LATf30		equ h'AF'	; Latitude minutes - thousandths
+LATf40		equ h'B0'	; Latitude minutes - 10thousandths
+LAThemi		equ h'B1'	; Latitude hemisphere (N or S)
 
 ; storage registers for Fix longitude (Bank1)
-LNGd100		equ h'B3'	; Longitude degrees - hundreds
-LNGd010		equ h'B4'	; Longitude degrees - tens
-LNGd001		equ h'B5'	; Longitude degrees - units
-LNGm10		equ h'B6'	; Longitude minutes - tens
-LNGm01		equ h'B7'	; Longitude minutes - units
-LNGf10		equ h'B8'	; Longitude minutes - tenths
-LNGf20		equ h'B9'	; Longitude minutes - hundredths
-LNGf30		equ h'BA'	; Longitude minutes - thousandths
-LNGf40		equ h'BB'	; Longitude minutes - 10thousandths
-LNGhemi		equ h'BC'	; Longitude hemisphere (E or W)
+LNGd100		equ h'B2'	; Longitude degrees - hundreds
+LNGd010		equ h'B3'	; Longitude degrees - tens
+LNGd001		equ h'B4'	; Longitude degrees - units
+LNGm10		equ h'B5'	; Longitude minutes - tens
+LNGm01		equ h'B6'	; Longitude minutes - units
+LNGf10		equ h'B7'	; Longitude minutes - tenths
+LNGf20		equ h'B8'	; Longitude minutes - hundredths
+LNGf30		equ h'B9'	; Longitude minutes - thousandths
+LNGf40		equ h'BA'	; Longitude minutes - 10thousandths
+LNGhemi		equ h'BB'	; Longitude hemisphere (E or W)
 
 ; Storage registers for GPS fix data (Bank1)
-GPSQual		equ h'BD'	; Quality of GPS fix indicator (0/1/2)
-SIUtens		equ h'BE'	; number of satellites in use - tens
-SIUunits	equ h'BF'	; number of satellites in use - units
-SIVtens		equ h'C0'	; Number of satellites in view - tens
-SIVunits	equ h'C1'	; Number of satellites in view - units
-AntHt10		equ h'C2'	; Ant height - tens of metres
-AntHt01		equ h'C3'	; Ant height - units of metres
-AntHtf1		equ h'C4'	; Ant height - tenths of a metre
+GPSQual		equ h'BC'	; Quality of GPS fix indicator (0/1/2)
+SIUtens		equ h'BD'	; number of satellites in use - tens
+SIUunits	equ h'BE'	; number of satellites in use - units
+SIVtens		equ h'BF'	; Number of satellites in view - tens
+SIVunits	equ h'C0'	; Number of satellites in view - units
+Alt0		equ h'C1'	; Altitude 0
+Alt1		equ h'C2'	; Altitude 1
+Alt2		equ h'C3'	; Altitude 2
+Alt0		equ h'C4'	; Altitude 3
+Alt1		equ h'C5'	; Altitude 4
+Alt2		equ h'C6'	; Altitude 5
+Geo0		equ h'C7'	; Geoid 0
+Geo1		equ h'C8'	; Geoid 1
+Geo2		equ h'C9'	; Geoid 2
+Geo3		equ h'CA'	; Geoid 3
+Geo4		equ h'CB'	; Geoid 4
+Geo5		equ h'CC'	; Geoid 5
 
 ; -----------------------------------------------------------------
 ; now program begins
@@ -345,11 +354,11 @@ DispScreen1:
 	MOVLW h'C0'			; now move down to line 2
 	CALL DispAddress
 
-	MOVLW "L"		
+	MOVLW "W"		
 	CALL DisplayData
-	MOVLW "C"	
+	MOVLW "S"	
 	CALL DisplayData
-	MOVLW "L"
+	MOVLW "T"
 	CALL DisplayData
 
 	MOVLW " "	
@@ -530,17 +539,29 @@ DispScreen3:
 	CALL DisplayData
 
 
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Alt0,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Alt1,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Alt2,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Alt3,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Alt4,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Alt5,0
+	BCF STATUS, RP0
 	CALL DisplayData
 
 	MOVLW h'C0'			; now move to start of second line
@@ -568,17 +589,30 @@ DispScreen3:
 	MOVLW " "
 	CALL DisplayData
 
-	MOVLW " "
+
+	BSF STATUS, RP0
+	MOVF Geo0,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Geo1,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Geo2,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Geo3,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Geo4,0
+	BCF STATUS, RP0
 	CALL DisplayData
-	MOVLW " "
+	BSF STATUS, RP0
+	MOVF Geo5,0
+	BCF STATUS, RP0
 	CALL DisplayData
 
 	RETURN				; before leaving
@@ -634,15 +668,15 @@ DispScreen4:
 	MOVLW h'C0'			; now move to start of second line
 	CALL DispAddress
 
-	MOVLW "V"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "K"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "6"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "M"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "R"
+	MOVLW " "
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
@@ -670,7 +704,7 @@ DispScreen4:
 	RETURN				; and return
 
 DispSplash:
-	MOVLW h'1'			; first set temp display mode timing counter
+	MOVLW h'5'			; first set temp display mode timing counter
 	MOVWF TempDispCtr	; for about 20 seconds (20 x 2 (was 3) GPS sentences)
 	BSF Flags,0			; then set temp display mode flag
 	MOVLW h'80'			; then set address to line 1, char 0
@@ -908,6 +942,22 @@ CheckaG:
 	BTFSS STATUS,Z		; if Z=1, must be a G so skip
 	GOTO Depart		; Z=0, so it can't be GGA so depart 
 
+	BSF STATUS, RP0		; set for Bank1
+	MOVLW	" "
+	MOVWF	Alt0
+	MOVWF	Alt1
+	MOVWF	Alt2
+	MOVWF	Alt3
+	MOVWF	Alt4
+	MOVWF	Alt5
+	MOVWF	Geo0
+	MOVWF	Geo1
+	MOVWF	Geo2
+	MOVWF	Geo3
+	MOVWF	Geo4
+	MOVWF	Geo5
+	BCF STATUS, RP0
+
 	MOVLW h'26'		; Inspect what should be the first digit of the time
 	MOVWF FSR
 	MOVF INDF,0
@@ -1063,27 +1113,150 @@ CheckaG:
 	BSF STATUS, RP0
 	MOVWF SIUunits		; no of satellites in use - units
 	BCF STATUS, RP0
+
+
+
 	MOVLW h'51'
 	MOVWF FSR
 	MOVF INDF,0
 	BSF STATUS, RP0
-	MOVWF AntHt10		; antenna height above MSL - tens
+	MOVWF TempChr		
 	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO Geoid			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Alt0
+
 	INCF FSR,1
 	MOVF INDF,0
 	BSF STATUS, RP0
-	MOVWF AntHt01		; antenna height above MSL - units
+	MOVWF TempChr		
 	BCF STATUS, RP0
-	INCF FSR,1
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO Geoid			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Alt1
+
 	INCF FSR,1
 	MOVF INDF,0
 	BSF STATUS, RP0
-	MOVWF AntHtf1		; antenna height above MSL - 10ths of a metre
+	MOVWF TempChr		
 	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO Geoid			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Alt2
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO Geoid			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Alt3
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO Geoid			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Alt4
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO Geoid			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Alt5
+
+	INCF FSR,1
+Geoid:
+	INCF FSR,1
+	INCF FSR,1
+	INCF FSR,1
+
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO AltDone			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Geo0
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO AltDone			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Geo1
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO AltDone			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Geo2
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO AltDone			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Geo3
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO AltDone			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Geo4
+
+	INCF FSR,1
+	MOVF INDF,0
+	BSF STATUS, RP0
+	MOVWF TempChr		
+	BCF STATUS, RP0
+	XORLW ","			; now just check if it's a zero
+	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
+	GOTO AltDone			; but if Z=1, start looking for the geoid
+	MOVF TempChr,0
+	MOVWF Geo5
 
 	GOTO	Add8
 
-	GOTO Depart			; that's it for a GPGGA sentence, so leave
+AltDone:
 
 Add8:
 	BSF STATUS, RP0
