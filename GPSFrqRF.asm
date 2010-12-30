@@ -787,6 +787,7 @@ DispSplash:
 	CALL DisplayData
 
 	CALL Delay2s
+	CALL Delay2s
 
 	RETURN				; and return
 
@@ -950,21 +951,21 @@ CheckaG:
 	BTFSS STATUS,Z		; if Z=1, must be a G so skip
 	GOTO Depart		; Z=0, so it can't be GGA so depart 
 
-;	BSF STATUS, RP0		; set for Bank1
-;	MOVLW	" "
-;	MOVWF	Alt0
-;	MOVWF	Alt1
-;	MOVWF	Alt2
-;	MOVWF	Alt3
-;	MOVWF	Alt4
-;	MOVWF	Alt5
-;	MOVWF	Geo0
-;	MOVWF	Geo1
-;	MOVWF	Geo2
-;	MOVWF	Geo3
-;	MOVWF	Geo4
-;	MOVWF	Geo5
-;	BCF STATUS, RP0
+	BSF STATUS, RP0		; set for Bank1
+	MOVLW	" "
+	MOVWF	Alt0
+	MOVWF	Alt1
+	MOVWF	Alt2
+	MOVWF	Alt3
+	MOVWF	Alt4
+	MOVWF	Alt5
+	MOVWF	Geo0
+	MOVWF	Geo1
+	MOVWF	Geo2
+	MOVWF	Geo3
+	MOVWF	Geo4
+	MOVWF	Geo5
+	BCF STATUS, RP0
 
 	MOVLW h'26'		; Inspect what should be the first digit of the time
 	MOVWF FSR
@@ -1265,7 +1266,138 @@ Geoid:
 	GOTO	Add8
 
 AltDone:
-
+	MOVF	Alt0,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	AltDone1
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Alt0
+	BCF STATUS,RP0
+	GOTO GeoDone
+	
+AltDone1:
+	MOVF	Alt1,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	AltDone2
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Alt1
+	BCF STATUS,RP0
+	GOTO GeoDone
+	
+AltDone2:
+	MOVF	Alt2,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	AltDone3
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Alt2
+	BCF STATUS,RP0
+	GOTO GeoDone
+	
+AltDone3:
+	MOVF	Alt3,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	AltDone4
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Alt3
+	BCF STATUS,RP0
+	GOTO GeoDone
+	
+AltDone4:
+	MOVF	Alt4,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	AltDone5
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Alt4
+	BCF STATUS,RP0
+	GOTO GeoDone
+	
+AltDone5:
+	MOVF	Alt5,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	GeoDone
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Alt5
+	BCF STATUS,RP0
+	GOTO GeoDone
+	
+	
+GeoDone:
+	MOVF	Geo0,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	GeoDone1
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Geo0
+	BCF STATUS,RP0
+	GOTO Add8
+	
+GeoDone1:
+	MOVF	Geo1,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	GeoDone2
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Geo1
+	BCF STATUS,RP0
+	GOTO Add8
+	
+GeoDone2:
+	MOVF	Geo2,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	GeoDone3
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Geo2
+	BCF STATUS,RP0
+	GOTO Add8
+	
+GeoDone3:
+	MOVF	Geo3,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	GeoDone4
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Geo3
+	BCF STATUS,RP0
+	GOTO Add8
+	
+GeoDone4:
+	MOVF	Geo4,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	GeoDone5
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Geo4
+	BCF STATUS,RP0
+	GOTO Add8
+	
+GeoDone5:
+	MOVF	Geo5,0
+	XORLW	" "
+	BTFSS	STATUS,Z
+	GOTO	Add8
+	MOVLW	"m"
+	BSF STATUS,RP0
+	MOVWF Geo5
+	BCF STATUS,RP0
+	GOTO Add8
+	
 Add8:
 	BSF STATUS, RP0
 
