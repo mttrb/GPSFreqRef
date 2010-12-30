@@ -87,9 +87,9 @@ SIVunits	equ h'C0'	; Number of satellites in view - units
 Alt0		equ h'C1'	; Altitude 0
 Alt1		equ h'C2'	; Altitude 1
 Alt2		equ h'C3'	; Altitude 2
-Alt0		equ h'C4'	; Altitude 3
-Alt1		equ h'C5'	; Altitude 4
-Alt2		equ h'C6'	; Altitude 5
+Alt3		equ h'C4'	; Altitude 3
+Alt4		equ h'C5'	; Altitude 4
+Alt5		equ h'C6'	; Altitude 5
 Geo0		equ h'C7'	; Geoid 0
 Geo1		equ h'C8'	; Geoid 1
 Geo2		equ h'C9'	; Geoid 2
@@ -137,7 +137,7 @@ Initialise:
 	BSF RCSTA, CREN		; also enable reception by setting CREN
 	CALL CleanSlate		; reset all GPS info for clean display start
 	CALL DispInit		; initialise LCD display module
-	CALL DispSplash		; and show splash screen
+	CALL DispScreen1		; and show splash screen
 	BCF Flags,0			; then clear flag (Flags bit 0)
 	BSF INTCON,GIE		; and finally enable global interrupts
 
