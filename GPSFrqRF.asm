@@ -1263,8 +1263,6 @@ Geoid:
 	MOVWF Geo5
 	BCF STATUS, RP0
 
-	GOTO	Add8
-
 AltDone:
 	MOVF	Alt0,0
 	XORLW	" "
