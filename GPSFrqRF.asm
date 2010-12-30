@@ -137,7 +137,7 @@ Initialise:
 	BSF RCSTA, CREN		; also enable reception by setting CREN
 	CALL CleanSlate		; reset all GPS info for clean display start
 	CALL DispInit		; initialise LCD display module
-	CALL DispScreen1		; and show splash screen
+	CALL DispSplash		; and show splash screen
 	BCF Flags,0			; then clear flag (Flags bit 0)
 	BSF INTCON,GIE		; and finally enable global interrupts
 
@@ -257,6 +257,15 @@ Delay160ms:
 	DECFSZ Counter3, 1	; then decrement Counter3 & skip when zero
 	GOTO $-2			; not zero yet, so keep going
 	RETURN				; reached zero, so return	
+
+Delay 2s:
+	MOVLW h'C8'		; Call Delay10ms 200 times
+	MOVWF TempChr		; use TempChr as a loop counter to avoid 
+	CALL Delay10ms	;creating another variable
+	DECFSZ TempChr, 1
+	GOTO $-2
+	RETURN
+	
 	
 DispAddress:
 	;routine to translate & load display address (in w reg) into LCD
@@ -704,9 +713,6 @@ DispScreen4:
 	RETURN				; and return
 
 DispSplash:
-	MOVLW h'5'			; first set temp display mode timing counter
-	MOVWF TempDispCtr	; for about 20 seconds (20 x 2 (was 3) GPS sentences)
-	BSF Flags,0			; then set temp display mode flag
 	MOVLW h'80'			; then set address to line 1, char 0
 	CALL DispAddress
 
@@ -779,6 +785,8 @@ DispSplash:
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
+
+	CALL Delay2s
 
 	RETURN				; and return
 
@@ -942,21 +950,21 @@ CheckaG:
 	BTFSS STATUS,Z		; if Z=1, must be a G so skip
 	GOTO Depart		; Z=0, so it can't be GGA so depart 
 
-	BSF STATUS, RP0		; set for Bank1
-	MOVLW	" "
-	MOVWF	Alt0
-	MOVWF	Alt1
-	MOVWF	Alt2
-	MOVWF	Alt3
-	MOVWF	Alt4
-	MOVWF	Alt5
-	MOVWF	Geo0
-	MOVWF	Geo1
-	MOVWF	Geo2
-	MOVWF	Geo3
-	MOVWF	Geo4
-	MOVWF	Geo5
-	BCF STATUS, RP0
+;	BSF STATUS, RP0		; set for Bank1
+;	MOVLW	" "
+;	MOVWF	Alt0
+;	MOVWF	Alt1
+;	MOVWF	Alt2
+;	MOVWF	Alt3
+;	MOVWF	Alt4
+;	MOVWF	Alt5
+;	MOVWF	Geo0
+;	MOVWF	Geo1
+;	MOVWF	Geo2
+;	MOVWF	Geo3
+;	MOVWF	Geo4
+;	MOVWF	Geo5
+;	BCF STATUS, RP0
 
 	MOVLW h'26'		; Inspect what should be the first digit of the time
 	MOVWF FSR
@@ -1119,69 +1127,69 @@ CheckaG:
 	MOVLW h'51'
 	MOVWF FSR
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO Geoid			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Alt0
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO Geoid			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Alt1
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO Geoid			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Alt2
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO Geoid			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Alt3
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO Geoid			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Alt4
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO Geoid			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Alt5
+	BCF STATUS, RP0
 
 	INCF FSR,1
 Geoid:
@@ -1190,69 +1198,69 @@ Geoid:
 	INCF FSR,1
 
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO AltDone			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Geo0
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO AltDone			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Geo1
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO AltDone			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Geo2
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO AltDone			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Geo3
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO AltDone			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Geo4
+	BCF STATUS, RP0
 
 	INCF FSR,1
 	MOVF INDF,0
-	BSF STATUS, RP0
 	MOVWF TempChr		
-	BCF STATUS, RP0
 	XORLW ","			; now just check if it's a zero
 	BTFSC STATUS,Z		; skip if Z=0 (because it wasn't)
 	GOTO AltDone			; but if Z=1, start looking for the geoid
 	MOVF TempChr,0
+	BSF STATUS, RP0
 	MOVWF Geo5
+	BCF STATUS, RP0
 
 	GOTO	Add8
 
