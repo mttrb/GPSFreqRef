@@ -128,7 +128,7 @@ Initialise:
 	BSF RCSTA, CREN		; also enable reception by setting CREN
 	CALL CleanSlate		; reset all GPS info for clean display start
 	CALL DispInit		; initialise LCD display module
-	CALL DispScreen1	; and show main display screen
+	CALL DispSplash		; and show splash screen
 	BCF Flags,0			; then clear flag (Flags bit 0)
 	BSF INTCON,GIE		; and finally enable global interrupts
 
@@ -510,47 +510,54 @@ DispScreen3:
 	CALL DispAddress
 	MOVLW "A"			; send "Ant "
 	CALL DisplayData
-	MOVLW "n"
+	MOVLW "l"
 	CALL DisplayData
 	MOVLW "t"
 	CALL DisplayData
-	MOVLW " "
+	MOVLW "i"
 	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF AntHt10,0		; and 10s of metres
-	BCF STATUS, RP0
+	MOVLW "t"
 	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF AntHt01,0		; and units of metres
-	BCF STATUS, RP0
+	MOVLW "u"
 	CALL DisplayData
-	MOVLW "."			; followed by decimal point
+	MOVLW "d"
 	CALL DisplayData
-	BSF STATUS, RP0
-	MOVF AntHtf1,0		; and tenths of metre
-	BCF STATUS, RP0
+	MOVLW "e"
 	CALL DisplayData
-	MOVLW "m"			; followed by "m abvMSL"
+	MOVLW ":"
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
-	MOVLW "a"
+
+
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "b"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "v"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "M"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "S"
+	MOVLW " "
 	CALL DisplayData
-	MOVLW "L"
+	MOVLW " "
 	CALL DisplayData
+
 	MOVLW h'C0'			; now move to start of second line
 	CALL DispAddress
 
 
-	MOVLW " "
+	MOVLW "G"
+	CALL DisplayData
+	MOVLW "e"
+	CALL DisplayData
+	MOVLW "o"
+	CALL DisplayData
+	MOVLW "i"
+	CALL DisplayData
+	MOVLW "d"
+	CALL DisplayData
+	MOVLW ":"
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
@@ -560,16 +567,7 @@ DispScreen3:
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
-	MOVLW " "
-	CALL DisplayData
+
 	MOVLW " "
 	CALL DisplayData
 	MOVLW " "
@@ -655,6 +653,85 @@ DispScreen4:
 	MOVLW " "
 	CALL DisplayData
 	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+
+	RETURN				; and return
+
+DispSplash:
+	MOVLW h'1'			; first set temp display mode timing counter
+	MOVWF TempDispCtr	; for about 20 seconds (20 x 2 (was 3) GPS sentences)
+	BSF Flags,0			; then set temp display mode flag
+	MOVLW h'80'			; then set address to line 1, char 0
+	CALL DispAddress
+
+
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW "G"
+	CALL DisplayData
+	MOVLW "P"
+	CALL DisplayData
+	MOVLW "S"
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW "F"
+	CALL DisplayData
+	MOVLW "r"
+	CALL DisplayData
+	MOVLW "e"
+	CALL DisplayData
+	MOVLW "q"
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW "R"
+	CALL DisplayData
+	MOVLW "e"
+	CALL DisplayData
+	MOVLW "f"
+	CALL DisplayData
+	MOVLW " "			; and send "Sats in View: "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+
+	MOVLW h'C0'			; now move to start of second line
+	CALL DispAddress
+
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW " "
+	CALL DisplayData
+	MOVLW "V"
+	CALL DisplayData
+	MOVLW "K"
+	CALL DisplayData
+	MOVLW "6"
+	CALL DisplayData
+	MOVLW "M"
+	CALL DisplayData
+	MOVLW "R"
 	CALL DisplayData
 	MOVLW " "
 	CALL DisplayData
