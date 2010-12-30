@@ -258,7 +258,7 @@ Delay160ms:
 	GOTO $-2			; not zero yet, so keep going
 	RETURN				; reached zero, so return	
 
-Delay 2s:
+Delay2s:
 	MOVLW h'C8'		; Call Delay10ms 200 times
 	MOVWF TempChr		; use TempChr as a loop counter to avoid 
 	CALL Delay10ms	;creating another variable
