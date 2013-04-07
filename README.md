@@ -4,3 +4,5 @@ This is a modified version of the PIC code for the Silicon Chip GPS Frequency Re
 
 * Project Page: http://www.siliconchip.com.au/Issue/2007/March/GPS-Based+Frequency+Reference%3B+Pt.1
 * Original Source: http://www.siliconchip.com.au/Shop/Download/1489/1687
+
+**Note:** My modified version is based on an earlier version of the code found on the Silicon Chip website.
