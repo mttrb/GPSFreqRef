@@ -1,4 +1,6 @@
-# GPSFreqRef - Modified version of the PIC code for the Silicon Chip GPS Frequency Reference to use a tu00-D200/D205 GPS module
+# GPSFreqRef  
+## Modified version of the PIC code for the Silicon Chip GPS Frequency Reference to use a tu00-D200/D205 GPS module
+
 
 This is a modified version of the PIC code for the Silicon Chip GPS Frequency Reference. The code has been modified to use a tu00-D200/D205 GPS module instead of the Garmin GPS15 used in the original project.
 
