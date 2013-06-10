@@ -7,6 +7,7 @@ This is a modified version of the PIC code for the Silicon Chip GPS Frequency Re
 Local time is hardcoded to UTC+8 for Perth.  Fortunately, Perth doesn't have daylight saving so this works out quite nicely.
 
 * Project Page: http://www.siliconchip.com.au/Issue/2007/March/GPS-Based+Frequency+Reference%3B+Pt.1
-* Original Source: http://www.siliconchip.com.au/Shop/Download/1489/1687
+* Original Source: http://www.siliconchip.com.au/Shop/6/1489  (Silicon Chip are now charging AUD3 to download the original source code)
 
 **Note:** My modified version is based on an earlier version of the code found on the Silicon Chip website.
+
