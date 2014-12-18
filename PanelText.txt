@@ -1,0 +1,30 @@
+Front Panel
+====
+
+Left to Right
+
+LEDs: GPS Fix, PLL Lock, GPS 1Hz
+
+Buttons: Location, Antenna, Sat Info
+(These changed with my firmware)
+
+Initialise GPS Fix
+(Don't think this does anything in this firmware)
+
+LCD Contrast
+
+BNCs: 10MHz, 1MHz
+
+
+Back Panel
+====
+
+Left to Right
+
+Top Middle: UHF Input from Active GPS Antenna (+ Phantom Power)
+
+BNCs: GPS 1Hz, Phase Error Pulse
+
+RCA: Phase Error Volts
+
+Power: 12V DC Input (Centre Positive)
